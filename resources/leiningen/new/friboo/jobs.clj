@@ -3,6 +3,10 @@
             [org.zalando.stups.friboo.log :as log]
             [overtone.at-at :refer [every]]))
 
+(def default-jobs-configuration
+  {:jobs-every-ms         15000
+   :jobs-initial-delay-ms 1000})
+
 (defn run-job [configuration]
   (log/info "Hello from background job, configuration: %s" configuration))
 

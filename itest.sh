@@ -3,9 +3,12 @@ set -euo pipefail
 IFS=$'\t\n'
 set -x
 
-lein do clean, install
+# Build the template itself
+lein do clean, test
 
+# Generate a project based on the template and run tests in it
 cd target
-lein new friboo com.example.bar/foo-bar
+# We don't need to install it to ~/.m2, because it's already available on the classpath
+DEBUG=1 lein new friboo com.example/foo-bar
 cd foo-bar
 lein test

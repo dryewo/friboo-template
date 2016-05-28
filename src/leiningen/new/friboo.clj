@@ -5,35 +5,40 @@
             [leiningen.core.main :as main]
             [clojure.string :as str]))
 
-(def render (renderer "friboo"))
-
 (defn db-prefix [name]
   (->> (str/split name #"(-|_)")
        (map first)
        (apply str)))
 
+(defn prepare-data [name]
+  (let [namespace (sanitize-ns name)]
+    {:raw-name    name
+     :name        (project-name name)
+     :namespace   namespace
+     :nested-dirs (name-to-path namespace)
+     :db-prefix   (db-prefix (project-name name))
+     :year        (year)
+     :date        (date)}))
+
 (defn friboo
   "A Friboo project template"
   [name]
   (let [render (renderer "friboo")
-        main-ns (multi-segment (sanitize-ns name))
-        data {:raw-name name
-              :name (project-name name)
-              :namespace main-ns
-              :nested-dirs (name-to-path main-ns)
-              :db-prefix (db-prefix (project-name name))
-              :year (year)
-              :date (date)}]
-    (main/info data)
+        data   (prepare-data name)]
+    (main/debug "Template data:" data)
     (main/info "Generating a project called" name "based on the 'friboo' template.")
     (->files data
              ["project.clj" (render "project.clj" data)]
              ;["README.md" (render "README.md" data)]
              ;["doc/intro.md" (render "intro.md" data)]
-             ;[".gitignore" (render "gitignore" data)]
+             [".gitignore" (render "gitignore" data)]
              ;[".hgignore" (render "hgignore" data)]
+             ["db.sh" (render "db.sh" data) :executable true]
+             ["dev-config.edn" (render "dev-config.edn" data)]
+             ["resources/api/api.yaml" (render "api.yaml" data)]
              ["resources/db/queries.sql" (render "queries.sql" data)]
-             ["resources/migration/V1__initial_schema.sql" (render "schema.sql" data)]
+             ["resources/db/migration/V1__initial_schema.sql" (render "schema.sql" data)]
+             ["dev/user.clj" (render "user.clj" data)]
              ["src/{{nested-dirs}}/db.clj" (render "db.clj" data)]
              ["src/{{nested-dirs}}/api.clj" (render "api.clj" data)]
              ["src/{{nested-dirs}}/jobs.clj" (render "jobs.clj" data)]
