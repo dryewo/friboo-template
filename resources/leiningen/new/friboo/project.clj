@@ -7,13 +7,14 @@
   :dependencies [[org.clojure/clojure "1.8.0"]
                  [org.zalando.stups/friboo "1.7.0"]
                  [yesql "0.5.2"]]
-  :main ^:skip-aot {{namespace}}
+  :main ^:skip-aot {{namespace}}.core
   :uberjar-name "{{name}}.jar"
+  :target-path "target/%s"
+  :manifest {"Implementation-Version" ~#(:version %)}
   :plugins [[io.sarnowski/lein-docker "1.1.0"]
             [org.zalando.stups/lein-scm-source "0.2.0"]]
-  :docker {:image-name #=(eval (str (some-> (System/getenv "DEFAULT_DOCKER_REGISTRY")
-                                      (str "/"))
-                                 "example_team/{{raw-name}}"))}
+  :docker {:image-name #=(eval (str (some-> (System/getenv "DEFAULT_DOCKER_REGISTRY") (str "/"))
+                                    "example_team/{{name}}"))}
   :release-tasks [["vcs" "assert-committed"]
                   ["change" "version" "leiningen.release/bump-version" "release"]
                   ["vcs" "commit"]

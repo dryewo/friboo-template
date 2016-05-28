@@ -12,3 +12,6 @@ cd target
 DEBUG=1 lein new friboo com.example/foo-bar
 cd foo-bar
 lein test
+lein uberjar
+touch scm-source.json
+lein docker build

@@ -31,6 +31,8 @@
              ["project.clj" (render "project.clj" data)]
              ;["README.md" (render "README.md" data)]
              ;["doc/intro.md" (render "intro.md" data)]
+             ["Dockerfile" (render "Dockerfile" data)]
+             [".dockerignore" (render "dockerignore" data)]
              [".gitignore" (render "gitignore" data)]
              ;[".hgignore" (render "hgignore" data)]
              ["db.sh" (render "db.sh" data) :executable true]
