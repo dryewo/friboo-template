@@ -5,15 +5,14 @@
             :url  "http://www.apache.org/licenses/LICENSE-2.0"}
   :min-lein-version "2.0.0"
   :dependencies [[org.clojure/clojure "1.8.0"]
-                 [org.zalando.stups/friboo "1.7.0"]
-                 [yesql "0.5.2"]]
+                 [org.zalando.stups/friboo "1.8.0"]
+                 [yesql "0.5.3"]]
   :main ^:skip-aot {{namespace}}.core
   :uberjar-name "{{name}}.jar"
   :target-path "target/%s"
   :manifest {"Implementation-Version" ~#(:version %)}
-  :plugins [[lein-cloverage "1.0.6"]
-            [io.sarnowski/lein-docker "1.1.0"]
-            [org.zalando.stups/lein-scm-source "0.2.0"]]
+  :plugins [[io.sarnowski/lein-docker "1.1.0"]
+            [org.zalando.stups/lein-scm-source "0.3.0"]]
   :docker {:image-name #=(eval (str (some-> (System/getenv "DEFAULT_DOCKER_REGISTRY") (str "/"))
                                     "example_team/{{name}}"))}
   :release-tasks [["vcs" "assert-committed"]

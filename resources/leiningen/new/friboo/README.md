@@ -29,7 +29,7 @@ For REPL-driven interactive development configuration variables can be provided 
 ## Testing
 
 ```
-$ lein cloverage
+$ lein test
 ```
 
 ## Building

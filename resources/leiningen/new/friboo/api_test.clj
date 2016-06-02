@@ -23,7 +23,7 @@
              {:status 204}))
       (is (= @number-of-calls 1)))))
 
-(deftest foo
+(deftest wrap-midje-facts
 
   (facts "about delete-greeting-template"
          (fact "works"
