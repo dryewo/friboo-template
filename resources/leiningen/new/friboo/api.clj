@@ -13,12 +13,6 @@
 (def default-http-configuration
   {:http-port 8080})
 
-(defn throw-ex-info
-  "Throws `ex-info` for HTTP 500 with error description inside."
-  [e]
-  (log/error e (str e))
-  (throw (ex-info "Internal server error" {:http-code 500 :details (str e)})))
-
 (defmacro wrap-handler
   "Common part for every handler function, including content-type-json and nice exception handling."
   [& body]
@@ -26,7 +20,8 @@
      (try
        ~@body
        (catch Exception e#
-         (throw-ex-info e#)))))
+         (log/error e# "Unhandled exception.")
+         (throw-error 500 "Internal server error" (str e#))))))
 
 (defn get-hello
   "Says hello"
