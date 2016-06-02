@@ -11,7 +11,8 @@
   :uberjar-name "{{name}}.jar"
   :target-path "target/%s"
   :manifest {"Implementation-Version" ~#(:version %)}
-  :plugins [[io.sarnowski/lein-docker "1.1.0"]
+  :plugins [[lein-cloverage "1.0.6"]
+            [io.sarnowski/lein-docker "1.1.0"]
             [org.zalando.stups/lein-scm-source "0.2.0"]]
   :docker {:image-name #=(eval (str (some-> (System/getenv "DEFAULT_DOCKER_REGISTRY") (str "/"))
                                     "example_team/{{name}}"))}
@@ -26,8 +27,7 @@
                   ["docker" "push"]
                   ["change" "version" "leiningen.release/bump-version"]
                   ["vcs" "commit"]
-                  ["echo" "-e" "Now run:\\n\\n    lein vcs push\\n"]
-                  #_["vcs" "push"]]
+                  ["vcs" "push"]]
   :profiles {:uberjar {:aot :all}
              :dev     {:repl-options {:init-ns user}
                        :source-paths ["dev"]

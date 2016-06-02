@@ -29,7 +29,7 @@
     (main/info "Generating a project called" name "based on the 'friboo' template.")
     (->files data
              ["project.clj" (render "project.clj" data)]
-             ;["README.md" (render "README.md" data)]
+             ["README.md" (render "README.md" data)]
              ;["doc/intro.md" (render "intro.md" data)]
              ["Dockerfile" (render "Dockerfile" data)]
              [".dockerignore" (render "dockerignore" data)]
